@@ -3,7 +3,7 @@ import type { TypesCharacters } from "../types/TypesCharacters"
 function Card ({CharacterIndividual}: {CharacterIndividual: TypesCharacters}) {
     
     return (
-        <div className="bg-black/40 w-90 h-105 rounded-2xl flex justify-center flex-col items-center
+        <div className="bg-green-800/20 w-90 h-105 rounded-2xl flex justify-center flex-col items-center
         hover:scale-105 transition-all cursor-pointer">
             <img 
             className={`w-70 h-70 rounded-2xl mt-5 opacity-85`} 

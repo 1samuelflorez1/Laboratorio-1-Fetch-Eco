@@ -7,6 +7,8 @@ function MainPage() {
   const [Characters, setCharacters] = useState<TypesCharacters[]>([]);
   const [Busqueda, setBusqueda] = useState("");
   const [Loading, setLoading] = useState(true)
+  const [Error, setError] = useState<string>("")
+  const [Online, setOnline] = useState(navigator.onLine)
 
   const palabras = Busqueda.toLowerCase().trim().split(" ");
 
@@ -20,13 +22,29 @@ function MainPage() {
   );
 
   useEffect(() => {
+    const handleOnline = () => setOnline(true)
+    const handleOffline = () => setOnline(false)
+
+    window.addEventListener("online", handleOnline)
+    window.addEventListener("offline", handleOffline)
+  })
+
+  useEffect(() => {
     const fetchData = async () => {
-      const data = await getStuff();
-      setTimeout(() => {
-        setCharacters(data);
-        setLoading(false)
-      }, 2000);
-    };
+      try {
+        const data = await getStuff();
+  
+        setTimeout(() => {
+          setCharacters(data);
+          setLoading(false)
+        }, 2000);
+        
+      } catch (error){
+      setError(`${error}`)
+      setLoading(false)
+    }
+  };
+
     fetchData();
   }, []);
 
@@ -36,6 +54,28 @@ function MainPage() {
       <span className="loading loading-infinity loading-xl size-20 bg-green-800"></span>
     </div>
   )}
+
+  if(Error){
+    return (
+      <div className="flex flex-col justify-center items-center mt-75">
+        <p className="font-bold text-white/40">{Error}</p>
+        <button
+        onClick={() => window.location.reload()} 
+        className="bg-white/30 px-4 py-1 rounded-3xl w-30 mt-5 cursor-pointer transition-all hover:bg-red-800">Reintentar</button>
+      </div>
+    )
+  }
+
+  if(!Online){
+    return (
+      <div className="flex flex-col justify-center items-center mt-75">
+        <p className="font-bold text-white/40">WiFi Error</p>
+        <button
+        onClick={() => window.location.reload()} 
+        className="bg-white/30 px-4 py-1 rounded-3xl w-30 mt-5 cursor-pointer transition-all hover:bg-red-800">Reintentar</button>
+      </div>
+    )
+  }
 
   return (
     <div>
@@ -80,8 +120,8 @@ function MainPage() {
             })
           ) : (
             <div className="flex flex-col justify-center items-center">
-              <p className="text-2xl font-bold text-red-800">No se encontraron</p>
-              <p className="text-2xl font-bold text-red-800">Resultados</p>
+              <p className="text-2xl font-bold text-white/40">Data not</p>
+              <p className="text-2xl font-bold text-white/40">Found</p>
             </div>
           )
           }
