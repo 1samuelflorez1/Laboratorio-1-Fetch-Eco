@@ -20,6 +20,7 @@ function MainPage() {
         character.status.toLowerCase().includes(palabra),
     ),
   );
+
   useEffect(() => {
     const handleOnline = () => setOnline(true);
     const handleOffline = () => setOnline(false);
@@ -27,6 +28,7 @@ function MainPage() {
     window.addEventListener("online", handleOnline);
     window.addEventListener("offline", handleOffline);
   });
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -42,6 +44,7 @@ function MainPage() {
     };
     fetchData();
   }, []);
+
   if (Loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -49,6 +52,7 @@ function MainPage() {
       </div>
     );
   }
+
   if (Error) {
     return (
       <div className="flex flex-col justify-center items-center mt-75">
@@ -62,6 +66,7 @@ function MainPage() {
       </div>
     );
   }
+
   if (!Online) {
     return (
       <div className="flex flex-col justify-center items-center mt-75">
@@ -75,6 +80,7 @@ function MainPage() {
       </div>
     );
   }
+
   return (
     <div>
       <div className="flex flex-col items-center">
@@ -102,7 +108,6 @@ function MainPage() {
             ✘
           </button>
         </div>
-        {/* <span className="loading loading-infinity loading-xl size-20"></span> */}
       </div>
       <div className="flex">
         <div className="grid grid-cols-1 gap-10 max-w-2xl mx-auto mt-10  bg-black/20 p-10 pl-40 pr-40 rounded-2xl">
